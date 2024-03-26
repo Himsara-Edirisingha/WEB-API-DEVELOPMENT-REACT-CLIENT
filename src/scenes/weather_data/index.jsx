@@ -3,6 +3,7 @@ import { MapContainer, Polygon, TileLayer } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import { geoData } from '../../data/geoData'
 import Box from '@mui/material/Box'
+import swal from 'sweetalert';
 
 const center = [7.688843, 80.665844]
 const Index = () => {
@@ -57,7 +58,13 @@ const Index = () => {
                     color: "white",
                   });
                 },
-                click: (e) => alert(feature.properties.electoralDistrict),
+                click: (e) => {
+                  swal({
+                    title: feature.properties.electoralDistrict,
+                    text: "A custom  message.",
+                    html: true
+                  });
+                }
               }}
             />
           </Box>
@@ -66,5 +73,5 @@ const Index = () => {
     </MapContainer>
   );
 }
-
+// alert(feature.properties.electoralDistrict)
 export default Index
