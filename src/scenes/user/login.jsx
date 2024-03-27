@@ -12,6 +12,8 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { BASE_URL } from '../../config';
+
 
 function Copyright(props) {
     return (
@@ -34,10 +36,29 @@ const Login = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            username: data.get('email'),
-            password: data.get('password'),
-        });
+
+        fetch(BASE_URL + "user/" + data.get('email') + "/" + data.get('password'))
+            .then((res) => {
+                return res.json();
+            })
+            .then((data) => {
+                console.log(data);
+
+            });
+
+
+
+
+        // const token =BASE_URL;
+        // localStorage.setItem('token', token);
+        //  console.log(localStorage.getItem('token'))
+
+        // console.log({
+        //     username: data.get('email'),
+        //     password: data.get('password'),
+        // });
+        // window.location.href = '/dashboard';
+
     };
     return (
         <ThemeProvider theme={defaultTheme}>

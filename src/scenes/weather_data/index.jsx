@@ -6,7 +6,7 @@ import Box from '@mui/material/Box'
 import swal from 'sweetalert';
 
 const center = [7.688843, 80.665844]
-const Index = () => {
+const MapIndex = () => {
 
   return (
     <MapContainer
@@ -61,7 +61,7 @@ const Index = () => {
                 click: (e) => {
                   swal({
                     title: feature.properties.electoralDistrict,
-                    text: "A custom  message.",
+                    text: localStorage.getItem('token'),
                     html: true
                   });
                 }
@@ -74,4 +74,4 @@ const Index = () => {
   );
 }
 // alert(feature.properties.electoralDistrict)
-export default Index
+export default MapIndex
