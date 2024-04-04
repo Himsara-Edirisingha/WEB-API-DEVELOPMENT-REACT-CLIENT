@@ -10,6 +10,7 @@ import sunny from '../../assests/sunnyday.gif'
 import rainyimg from '../../assests/rainyimg.png'
 import snowyimg from '../../assests/snow.png'
 import sunnyimg from '../../assests/sunnyimg.png'
+import { BASE_URL } from '../../config'
 
 
 
@@ -20,7 +21,7 @@ const MapIndex = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://web-api-development-project.onrender.com/api/metrics/data');
+        const response = await fetch(BASE_URL+'/api/metrics/data');
         const data = await response.json();
         setApiData(data);
       } catch (error) {
