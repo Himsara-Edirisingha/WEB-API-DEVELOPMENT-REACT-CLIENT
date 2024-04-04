@@ -7,6 +7,10 @@ import swal from 'sweetalert2';
 import rainy from '../../assests/life-winter.gif'
 import snowy from '../../assests/snow-winter.gif'
 import sunny from '../../assests/sunnyday.gif'
+import rainyimg from '../../assests/rainyimg.png'
+import snowyimg from '../../assests/snow.png'
+import sunnyimg from '../../assests/sunnyimg.png'
+
 
 
 const center = [7.688843, 80.665844]
@@ -36,12 +40,12 @@ const MapIndex = () => {
     if (temperature > 30 && humidity > 70 && airPressure < 1000) {
       return `url(${sunny})`;
 
-    }else if(temperature < 0){
+    } else if (temperature < 0) {
       return `url(${snowy})`
-    } 
-    else if(temperature > 32){
+    }
+    else if (temperature > 32) {
       return `url(${sunny})`
-    } 
+    }
     else if (temperature < 10 && humidity < 30 && airPressure > 1000) {
       return `url(${snowy})`;
     } else {
@@ -49,7 +53,21 @@ const MapIndex = () => {
     }
   }
 
-
+  async function getBackgroundImage(temperature, humidity, airPressure) {
+    if (temperature > 30 && humidity > 70 && airPressure < 1000) {
+      return `url(${sunnyimg})`;
+    } else if (temperature < 0) {
+      return `url(${snowyimg})`
+    }
+    else if (temperature > 32) {
+      return `url(${sunnyimg})`
+    }
+    else if (temperature < 10 && humidity < 30 && airPressure > 1000) {
+      return `url(${snowyimg})`;
+    } else {
+      return `url(${rainyimg})`;
+    }
+  }
 
   return (
     <MapContainer
@@ -103,12 +121,16 @@ const MapIndex = () => {
                 click: async (e) => {
                   const { temperature, humidity, airPressure } = apiData.find(dataitem => dataitem.StatName === feature.properties.electoralDistrictCode) || {};
                   const backgroundGif = await getBackgroundGif(temperature, humidity, airPressure);
+                  const bgimg = await getBackgroundImage(temperature, humidity, airPressure);
+                  const opacity = 0.8;
+                  const rgbaColor = `rgba(255, 255, 255, ${opacity})`;
+
                   swal.fire({
                     title: feature.properties.electoralDistrict,
                     width: 600,
                     padding: "3em",
-                    color: "#716add",
-                    background: "#fff url(/images/trees.png)",
+                    color: "#0c0a2b",
+                    background: `${rgbaColor} ${bgimg}`,
                     backdrop: `
                             rgba(0, 0, 123, 0.4)
                             ${backgroundGif}
@@ -117,17 +139,12 @@ const MapIndex = () => {
                             `,
                     html: `
                          <ul >
-                         <li>Temperature: ${temperature || 'N/A'}</li>
-                         <li>Humidity: ${humidity || 'N/A'}</li>
-                         <li>Air Pressure: ${airPressure || 'N/A'}</li>
+                         <li><b>Temperature: ${temperature || 'N/A'}</b></li>
+                         <li><b>Humidity: ${humidity || 'N/A'}</b></li>
+                         <li><b>Air Pressure: ${airPressure || 'N/A'}</b></li>
                          </ul>
                         `
                   });
-                  // swal.fire({
-                  //   title: feature.properties.electoralDistrict,
-                  //   text:  JSON.stringify(apiData.find((dataitem)=>dataitem.StatName === feature.properties.electoralDistrictCode))
-
-                  // });
                 }
               }}
             />
