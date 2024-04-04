@@ -1,12 +1,33 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { MapContainer, Polygon, TileLayer } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import { geoData } from '../../data/geoData'
 import Box from '@mui/material/Box'
 import swal from 'sweetalert';
 
+
 const center = [7.688843, 80.665844]
 const MapIndex = () => {
+  const [apiData, setApiData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://web-api-development-project.onrender.com/api/metrics/data');
+        const data = await response.json();
+        setApiData(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+    const interval = setInterval(fetchData, 10000);
+    return () => clearInterval(interval);
+   
+  }, []);
+
+ // console.log('Rendered apiData:', apiData);
 
   return (
     <MapContainer
@@ -19,11 +40,10 @@ const MapIndex = () => {
         attribution='<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
       ></TileLayer>
       {geoData.features.map((feature, index) => {
-        const cords = feature.geometry.coordinates[0].map((item) => [item[1], item[0]]);
-        //const cords2=feature.properties.coordinates.length;
-        // console.log(feature.geometry.coordinates.length + " - " + index)
-        return (
 
+        const cords = feature.geometry.coordinates[0].map((item) => [item[1], item[0]]);
+
+        return (
           <Box key={index}>
             <Polygon
               pathOptions={{
@@ -59,10 +79,11 @@ const MapIndex = () => {
                   });
                 },
                 click: (e) => {
+                
                   swal({
                     title: feature.properties.electoralDistrict,
-                    text: localStorage.getItem('token'),
-                    html: true
+                    text:  JSON.stringify(apiData.find((dataitem)=>dataitem.StatName === feature.properties.electoralDistrictCode))
+                  
                   });
                 }
               }}

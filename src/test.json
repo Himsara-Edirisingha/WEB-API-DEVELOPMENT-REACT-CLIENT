@@ -1,0 +1,10 @@
+{
+    "_id": "660eb847d52f14bada5dbd40",
+    "stationId": "660e87f73f7aaaef2599c383",
+    "timestamp": "2024-04-04T14:25:11.806Z",
+    "temperature": 28,
+    "humidity": 46,
+    "airPressure": 1001,
+    "__v": 0,
+    "StatName": "ANU"
+}

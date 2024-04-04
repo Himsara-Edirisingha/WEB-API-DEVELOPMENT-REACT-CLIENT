@@ -46,19 +46,6 @@ const Login = () => {
 
             });
 
-
-
-
-        // const token =BASE_URL;
-        // localStorage.setItem('token', token);
-        //  console.log(localStorage.getItem('token'))
-
-        // console.log({
-        //     username: data.get('email'),
-        //     password: data.get('password'),
-        // });
-        // window.location.href = '/dashboard';
-
     };
     return (
         <ThemeProvider theme={defaultTheme}>
