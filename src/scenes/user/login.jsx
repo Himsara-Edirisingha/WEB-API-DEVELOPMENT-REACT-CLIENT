@@ -12,7 +12,9 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../../config';
+import swal from 'sweetalert2';
 
 
 function Copyright(props) {
@@ -32,21 +34,53 @@ const defaultTheme = createTheme();
 
 
 const Login = () => {
-
+    const navigate = useNavigate();
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
 
-        fetch(BASE_URL + "user/" + data.get('email') + "/" + data.get('password'))
+        const formData = new FormData();
+        formData.append('username', data.get('username'));
+        formData.append('password', data.get('password'));
+       
+
+        fetch(BASE_URL + "/api/user/auth/", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: data.get('username'),
+                password: data.get('password'),
+            }),
+        })
             .then((res) => {
-                return res.json();
+                if (res.ok) {
+                    return res.json();
+                }
+                throw new Error('Network response was not ok.');
             })
             .then((data) => {
-                console.log(data);
+                //console.log(data);
+                localStorage.setItem('token', data.token);
+                swal.fire({
+                    title: 'Success!',
+                    text: 'Login successful.',
+                    icon: 'success',
+                });
+                navigate('/dashboard');
+            })
+            .catch((error) => {
+                console.error('Error:', error);
 
+                swal.fire({
+                    title: 'Error!',
+                    text: 'Login failed. Please try again.',
+                    icon: 'error',
+                });
             });
-
     };
+
     return (
         <ThemeProvider theme={defaultTheme}>
             <Grid container component="main" sx={{ height: '100vh' }}>
@@ -86,9 +120,9 @@ const Login = () => {
                                 margin="normal"
                                 required
                                 fullWidth
-                                id="email"
+                                id="username"
                                 label="Username"
-                                name="email"
+                                name="username"
                                 autoComplete="username"
                                 autoFocus
                             />
