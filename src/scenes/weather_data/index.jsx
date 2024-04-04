@@ -125,25 +125,39 @@ const MapIndex = () => {
                   const opacity = 0.8;
                   const rgbaColor = `rgba(255, 255, 255, ${opacity})`;
 
-                  swal.fire({
+                  await swal.fire({
                     title: feature.properties.electoralDistrict,
                     width: 600,
                     padding: "3em",
-                    color: "#0c0a2b",
-                    background: `${rgbaColor} ${bgimg}`,
-                    backdrop: `
-                            rgba(0, 0, 123, 0.4)
-                            ${backgroundGif}
-                            left top
-                            no-repeat
-                            `,
+                    customClass: {
+                      title: "swal-title",
+                      htmlContainer: "swal-html-container",
+                    },
                     html: `
-                         <ul >
-                         <li><b>Temperature: ${temperature || 'N/A'}</b></li>
-                         <li><b>Humidity: ${humidity || 'N/A'}</b></li>
-                         <li><b>Air Pressure: ${airPressure || 'N/A'}</b></li>
-                         </ul>
-                        `
+                          <div class="swal-html-content">
+                               <div class="weather-info">
+                                 <div class="weather-info-item">
+                                 <span class="info-label"><b>Temperature:</b></span>
+                                 <span class="info-value"><b>${temperature || 'N/A'}</b></span>
+                                 </div>
+                             <div class="weather-info-item">
+                               <span class="info-label"><b>Humidity:</b></span>
+                               <span class="info-value"><b>${humidity || 'N/A'}</b></span>
+                             </div>
+                             <div class="weather-info-item">
+                             <span class="info-label"><b>Air Pressure:</b></span>
+                             <span class="info-value"><b>${airPressure || 'N/A'}</b></span>
+                             </div>
+                             </div>
+                            </div>
+                          `,
+                    background: `${bgimg} ${rgbaColor} no-repeat center / cover`,
+                    backdrop: `
+                             rgba(0, 0, 123, 0.4)
+                             ${backgroundGif}
+                              left top
+                              no-repeat
+                             `,
                   });
                 }
               }}
