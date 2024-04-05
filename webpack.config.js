@@ -5,7 +5,7 @@ const history = require('connect-history-api-fallback');
 module.exports = {
   entry: "./src/App.js",
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "build"),
     filename: "bundle.js",
   },
   module: {
