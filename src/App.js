@@ -17,9 +17,9 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route
           path="/dashboard"
-          element={authToken ? <Dashboard /> : <Navigate replace to="/login" />}
+          element={authToken ? <MapIndex /> : <Navigate replace to="/login" />}
         />
-        <Route path="/" element={<MapIndex />} />
+        <Route path="/" element={<Login />} />
       </Routes>
     </BrowserRouter>
   );
