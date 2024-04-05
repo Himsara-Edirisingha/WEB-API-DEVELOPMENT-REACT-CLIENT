@@ -1,4 +1,7 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+
 import Login from './scenes/user/login';
 import MapIndex from './scenes/weather_data';
 import Dashboard from './scenes/user/dashboard';
@@ -10,6 +13,7 @@ const App = () => {
   useLayoutEffect(() => {
     setAuthToken(localStorage.getItem('token'));
   }, [localStorage.getItem('token')]);
+ 
 
   return (
     <BrowserRouter>
@@ -17,12 +21,12 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route
           path="/dashboard"
-          element={authToken ? <MapIndex /> : <Navigate replace to="/login" />}
+          element={localStorage.getItem('token') ? < Dashboard/> : <Navigate replace to="/login" />}
         />
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<MapIndex />} />
       </Routes>
     </BrowserRouter>
   );
 };
 
-export default App;
+ReactDOM.render(<App/>,document.getElementById("root"));
